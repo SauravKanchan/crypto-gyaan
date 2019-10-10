@@ -48,5 +48,11 @@ describe('Crypto Gyaan', async () => {
         await cryptoGyaan.deployed();
         assert.ok(cryptoGyaan.address, 'crypto gyaan deployed');
     });
+
+    it('Add new order', async ()=>{
+        let tx = cryptoGyaan.functions.place_order(0,10*18);
+        await tx.wait();
+        assert.ok(cryptoGyaan.functions.total_order(0), "Order placed");
+    });
 });
 
