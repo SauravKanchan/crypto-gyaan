@@ -6,8 +6,7 @@ node_js:
 install:
       - npm i 
 before_script:
-      - npm run deploy
-      - npm run build
+      - node compile.js
 script:
       - ganache-cli -p 7545 > /dev/null &
       - npm test 
