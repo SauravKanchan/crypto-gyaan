@@ -32,7 +32,7 @@ describe('ERC721', async () => {
         for (let i = 0; i < 4; i++) {
             let tx = await erc721.functions.mintUniqueTokenTo(accounts[0], "https://saurav.tech/");
             await tx.wait();
-            assert.ok(parseInt( await  erc721.functions.totalSupply()) === i+1, `total supply is ${i+1}`);
+            assert.ok(parseInt(await erc721.functions.totalSupply()) === i + 1, `total supply is ${i + 1}`);
         }
     });
 });
@@ -49,10 +49,40 @@ describe('Crypto Gyaan', async () => {
         assert.ok(cryptoGyaan.address, 'crypto gyaan deployed');
     });
 
-    it('Add new order', async ()=>{
-        let tx = cryptoGyaan.functions.place_order(0,10*18);
+    it('Add new order', async () => {
+        let tx_approve = await erc721.functions.approve(cryptoGyaan.address, 0);
+        await tx_approve.wait();
+        let tx = await cryptoGyaan.functions.place_order(0, 10 ** 8);
         await tx.wait();
-        assert.ok(cryptoGyaan.functions.total_order(0), "Order placed");
+        assert.ok(await cryptoGyaan.functions.total_order(0), "Order placed");
+    });
+
+
+    it('Buy order with incorrect amount', async () => {
+        try {
+            let tx = await cryptoGyaan.functions.buy_order(0, {value: 1});
+            await tx.wait();
+            assert.ok(await cryptoGyaan.functions.total_order(0), "Buy order")
+        } catch (e) {
+            assert.ok(e.message.includes('revert'), e.message)
+        }
+    });
+
+    it('Buy order with correct amount', async () => {
+        let tx = await cryptoGyaan.functions.buy_order(0, {value: 10 ** 8});
+        await tx.wait();
+        assert.ok(await cryptoGyaan.functions.total_order(0), "Buy order")
+    });
+
+    it('Buy order with correct amount but same order', async () => {
+        try {
+            let tx = await cryptoGyaan.functions.buy_order(0, {value: 10 ** 8});
+            await tx.wait();
+            assert.ok(await cryptoGyaan.functions.total_order(0), "Buy order")
+        } catch (e) {
+            console.log(await cryptoGyaan.functions.total_order(0));
+            assert.ok(e.message.includes('revert'), e.message)
+        }
     });
 });
 
