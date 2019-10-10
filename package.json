@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/SauravKanchan/crypto-gyaan/issues"
   },
-  "homepage": "https://github.com/SauravKanchan/crypto-gyaan#readme"
+  "homepage": "https://github.com/SauravKanchan/crypto-gyaan#readme",
+  "dependencies": {
+    "ethers": "^4.0.37",
+    "fs-extra": "^8.1.0",
+    "solc": "^0.5.11",
+    "solc-import": "0.0.2",
+    "zeppelin-solidity": "^1.12.0"
+  }
 }
