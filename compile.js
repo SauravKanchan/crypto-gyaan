@@ -13,22 +13,19 @@ const getContractSource = contractFileName => {
 
 let sources = {};
 
-var walk = function (dir) {
-    var results = [];
-    var list = fs.readdirSync(dir);
+let walk = function (dir) {
+    let results = [];
+    let list = fs.readdirSync(dir);
     list.forEach(function (file) {
         file = dir + '/' + file;
-        var stat = fs.statSync(file);
+        let stat = fs.statSync(file);
         if (stat && stat.isDirectory()) {
             results = results.concat(walk(file));
         } else {
             if (file.substr(file.length - 4, file.length) === ".sol") {
-                sources = {
-                    ...sources,
-                    [file]: {
-                        content: getContractSource(file)
-                    }
-                };
+                sources[file] = {
+                    content: getContractSource(file)
+                }
             }
             results.push(file);
         }
@@ -47,7 +44,7 @@ const input = {
             }
         }
     }
-}
+};
 
 console.log('\nCompiling contracts...');
 const output = JSON.parse(solc.compile(JSON.stringify(input)));
