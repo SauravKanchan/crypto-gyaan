@@ -1,0 +1,24 @@
+{
+  "name": "crypto-gyaan",
+  "version": "1.0.0",
+  "description": "Buy and sell gyaan from the community.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SauravKanchan/crypto-gyaan.git"
+  },
+  "keywords": [
+    "Crypto",
+    "NFT",
+    "Marketplace"
+  ],
+  "author": "Saurav Kanchan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SauravKanchan/crypto-gyaan/issues"
+  },
+  "homepage": "https://github.com/SauravKanchan/crypto-gyaan#readme"
+}
