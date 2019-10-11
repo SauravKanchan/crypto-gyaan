@@ -12,9 +12,11 @@
         Nav,
         NavItem,
         NavLink,
+        Container,
     } from 'sveltestrap';
 
     let isOpen = false;
+
     function handleUpdate(event) {
         isOpen = event.detail.isOpen;
     }
@@ -37,4 +39,7 @@
             </Nav>
         </Collapse>
 </Navbar>
-<svelte:component this={$page.component} {...$page.props}/>
+<Container>
+
+    <svelte:component this={$page.component} {...$page.props}/>
+</Container>
