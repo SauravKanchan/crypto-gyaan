@@ -39,7 +39,7 @@
             </Nav>
         </Collapse>
 </Navbar>
-<Container>
-
+<div class="container center">
     <svelte:component this={$page.component} {...$page.props}/>
-</Container>
+</div>
+
