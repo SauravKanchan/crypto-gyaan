@@ -1,10 +1,17 @@
 <script>
-  import { Button, Col, Row } from 'sveltestrap';
+    import {
+        Container, Button, Jumbotron, Card, CardBody, CardHeader, CardText, CardTitle
+    } from 'sveltestrap';
 </script>
-
-<Row>
-  <Col>
-    <Button color="primary" outline>Hello World!</Button>
-  </Col>
-</Row>
-<a href="/something">Something</a>
+<div>
+    <Container>
+        <div class="row">
+            <div class="col-md">
+                <h1 class="display-3">Welcome to Crypto Gyaan</h1>
+                <p class="lead">
+                    Place where you can buy and sell your gyaan.
+                </p>
+            </div>
+        </div>
+    </Container>
+</div>

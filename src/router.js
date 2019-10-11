@@ -12,16 +12,15 @@ router('/', () =>
   )
 )
 
-router('/something', () =>
-  import(/* webpackChunkName: "something" */ './views/Something.svelte').then(
+router('/createNewWallet', () =>
+  import(/* webpackChunkName: "something" */ './views/createNewWallet.svelte').then(
     module => page.set({ component: module.default })
   )
 )
 
-router('/hello/:name', ctx =>
-  import(/* webpackChunkName: "hello" */ './views/Hello.svelte').then(module =>
-    page.set({ component: module.default, props: ctx.params })
-  )
-)
-
+router('/accessMyWallet', () =>
+    import('./views/accessMyWallet.svelte').then(
+        module => page.set({ component: module.default })
+    )
+);
 export default router
