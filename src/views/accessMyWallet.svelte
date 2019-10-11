@@ -7,6 +7,7 @@
     let private_key = "";
     let provider = new ethers.providers.InfuraProvider(config.provider);
     let load_wallet_by = "mnemonic";
+    let load_wallet_message = "Load Wallet";
 
     function load_wallet() {
         try {
@@ -108,6 +109,13 @@
                 <input type="text" bind:value={private_key} placeholder="Enter Private Key">
                 <button type="button" class="btn btn-success" on:click={load_by_private}>Load Wallet</button>
             {/if}
+
+            {#if load_wallet_by==="keystore"}
+                <input type="file"  on:change={load_keystore}><br>
+                <input type="password" bind:value={wallet_password} placeholder="Enter the Password"><br>
+                <button type="button" class="btn btn-success" on:click={load_by_keystore}>{load_wallet_message}</button>
+            {/if}
+
 
 
         </div>
