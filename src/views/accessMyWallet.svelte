@@ -97,14 +97,20 @@
 
 <div class="d-flex justify-content-center m-4">
     <div class="card">
+        <div class="card-body">
 
-        {#if load_wallet_by==="mnemonic"}
-            <div class="card-body">
+            {#if load_wallet_by==="mnemonic"}
                 <textarea bind:value={mnemonic} placeholder="Enter Your mnemonic"></textarea><br>
                 <button type="button" class="btn btn-success" on:click={load_wallet}>Load Wallet</button>
-            </div>
-        {/if}
+            {/if}
 
+            {#if load_wallet_by==="pk"}
+                <input type="text" bind:value={private_key} placeholder="Enter Private Key">
+                <button type="button" class="btn btn-success" on:click={load_by_private}>Load Wallet</button>
+            {/if}
+
+
+        </div>
 
     </div>
 </div>
