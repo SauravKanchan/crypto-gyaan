@@ -59,6 +59,14 @@
         }
     }
 
+    async function load_by_metamask(){
+        await window.ethereum.enable();
+        provider = new ethers.providers.Web3Provider(web3.currentProvider);
+        window.wallet = provider.getSigner();
+        document.getElementById("dashboard").click();
+    }
+
+
     function mnemonic_click() {
         load_wallet_by = "mnemonic";
     }
@@ -114,6 +122,10 @@
                 <input type="file"  on:change={load_keystore}><br>
                 <input type="password" bind:value={wallet_password} placeholder="Enter the Password"><br>
                 <button type="button" class="btn btn-success" on:click={load_by_keystore}>{load_wallet_message}</button>
+            {/if}
+
+            {#if load_wallet_by==="metamask"}
+                <button type="button" class="btn btn-success" on:click={load_by_metamask}>Connect Metamask</button>
             {/if}
 
 
