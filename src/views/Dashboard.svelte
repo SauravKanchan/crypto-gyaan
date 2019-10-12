@@ -39,10 +39,10 @@
     (async () => {
         wallet_address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
-        add_token(0);
-        add_token(1);
-        add_token(2);
-        add_token(3);
+
+        for (let i = 0; i < await window.erc721.functions.balanceOf(wallet.address); i++) {
+            add_token(parseInt(await window.erc721.functions.tokenOfOwnerByIndex(wallet.address, i)));
+        }
 
 
     })().catch(err => {
@@ -51,7 +51,7 @@
     });
 </script>
 {#if wallet}
-    <div class="row">
+    <div class="row m-5">
         <div class="col-md-7 h5">
             <strong>Address:</strong> {wallet_address}
         </div>
@@ -68,17 +68,24 @@
     </div>
 {/if}
 <div class="row">
-    {#each my_tokens as token, i}
-        <div class="col-md-3">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src={token_images[i]} alt="Token Image">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">Toke Id: {token}</h6>
-                    <h5 class="card-title">{token_title[i]}</h5>
-                    <p class="card-text">{token_description[i]}</p>
-                    <!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+    <div class="col-md-12">
+        <div class="h2">My Tokens: </div>
+    </div>
+    {#if my_tokens.length}
+        {#each my_tokens as token, i}
+            <div class="col-md-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src={token_images[i]} alt="Token Image">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Toke Id: {token}</h6>
+                        <h5 class="card-title">{token_title[i]}</h5>
+                        <p class="card-text">{token_description[i]}</p>
+                        <!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+                    </div>
                 </div>
             </div>
-        </div>
-    {/each}
+        {/each}
+    {:else}
+        <div class="h2">You don't have any tokens or it is yet to be loaded</div>
+    {/if}
 </div>
