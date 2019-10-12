@@ -29,4 +29,9 @@ router('/dashboard', () =>
         module => page.set({ component: module.default })
     )
 );
+router('/addNewGyaan', () =>
+    import('./views/addNewGyaan.svelte').then(
+        module => page.set({ component: module.default })
+    )
+);
 export default router

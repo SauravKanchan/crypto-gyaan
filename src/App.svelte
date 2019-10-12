@@ -1,5 +1,7 @@
 <script>
     import router, {page} from './router'
+    const IPFS = require('ipfs-mini');
+    window.ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
     router.start();
 

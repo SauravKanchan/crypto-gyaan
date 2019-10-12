@@ -29,6 +29,8 @@
     "ethers": "^4.0.37",
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.7.0",
+    "ipfs": "^0.38.0",
+    "ipfs-mini": "^1.1.5",
     "mocha": "^6.2.1",
     "solc": "^0.5.11",
     "solc-import": "0.0.2",
