@@ -34,7 +34,7 @@
     "mocha": "^6.2.1",
     "solc": "^0.5.11",
     "solc-import": "0.0.2",
-    "sveltestrap": "^3.2.4",
+    "sveltestrap": "^3.2.4"
   },
   "devDependencies": {
     "@vue/preload-webpack-plugin": "^1.1.0",
