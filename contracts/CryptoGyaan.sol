@@ -9,14 +9,16 @@ contract CryptoGyaan {
         address seller;
         address buyer;
         uint256 price;
-        uint8 status;  // 1 is open; 2 is placed and 3 is canceled
+        uint8 status;// 1 is open; 2 is placed and 3 is canceled
+        uint256 order_id;
     }
 
 
     MyERC721 public erc721;
     Order[] public total_order;
 
-    mapping(address => Order[]) public balances;
+    mapping(address => uint256[]) public order_by_address;
+    mapping(address => uint256) public total_order_by_address;
 
 
     constructor (address _gyann_contract) public{
@@ -38,9 +40,10 @@ contract CryptoGyaan {
     function place_order(uint256 _token_id, uint256 _price) public returns (bool) {
         erc721.transferFrom(msg.sender, address(this), _token_id);
         require(erc721.ownerOf(_token_id) == address(this), "Token not deposited");
-        Order memory order = Order(_token_id, msg.sender, address(0), _price, 1);
+        Order memory order = Order(_token_id, msg.sender, address(0), _price, 1, total_order.length);
         total_order.push(order);
-        balances[msg.sender].push(order);
+        total_order_by_address[msg.sender] ++;
+        order_by_address[msg.sender].push(total_order.length -1);
         emit PlaceOrder(_token_id, msg.sender, _price);
         return true;
     }

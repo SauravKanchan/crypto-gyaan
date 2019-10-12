@@ -8,6 +8,7 @@
 
             FR.addEventListener("load", async function (e) {
                 let base64 = e.target.result;
+                image_uploaded = false;
                 logs.unshift("Adding image to IPFS...");
                 logs = logs;
                 hash = await ipfs.add(base64);
@@ -61,7 +62,10 @@
             </div>
             <div class="form-group">
                 <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary" class:disabled={!image_uploaded}>Submit</button>
+                    <button type="submit" class="btn btn-primary mr-2" class:disabled={!image_uploaded}
+                            disabled={!image_uploaded}>Submit
+                    </button>
+                    <a class="btn btn-danger ml-2" href="/dashboard">Close</a>
                 </div>
             </div>
         </form>
