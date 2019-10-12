@@ -1,5 +1,4 @@
 <script>
-    const axios = require('axios');
     let image = "", status = "", image_path = "", hash = "", title = "", description = "", gyaan_hash = "",
             image_uploaded = false;
 
@@ -11,9 +10,8 @@
                 let base64 = e.target.result;
                 status = "Adding image to IPFS...";
                 hash = await ipfs.add(base64);
-                status = "Added image to IPFS " + hash+" Ready to submit.";
-                // let res = await axios.get("https://ipfs.io/ipfs/" + hash);
-                // image = res.data;
+                status = "Added image to IPFS. IPFS hash: " + hash+". Ready to submit.";
+
                 image_uploaded = true;
             });
 
@@ -29,12 +27,12 @@
             description: description,
             image: hash
         });
-        status = "Added Gyaan to ipfs " + gyaan_hash + " Adding to ethereum blockchain...";
-        console.log(typeof (gyaan_hash))
+        status = "Added Gyaan to ipfs. IPFS hash: " + gyaan_hash + ". Adding to ethereum blockchain...";
+        console.log(typeof (gyaan_hash));
         let tx = await erc721.functions.mintUniqueTokenTo(await wallet.getAddress(), gyaan_hash);
-        status = "Transaction added " + tx.hash + " Waiting for transaction to be mined...";
+        status = "Transaction added. Transaction hash: " + tx.hash + " Waiting for transaction to be mined...";
         let block = await tx.wait();
-        status = "Transaction mined. Block Number"+ block.blockNumber;
+        status = "Transaction mined. Block Number: "+ block.blockNumber;
     }
 </script>
 
