@@ -1,6 +1,8 @@
 <script>
     import router, {page} from './router'
     const IPFS = require('ipfs-mini');
+    window.bip39 = require('bip39');
+    window.ethers = require('ethers');
     window.ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
 
     router.start();

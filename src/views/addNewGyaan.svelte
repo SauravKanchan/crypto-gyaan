@@ -11,7 +11,7 @@
                 let base64 = e.target.result;
                 status = "Adding image to IPFS...";
                 hash = await ipfs.add(base64);
-                status = "Added image to IPFS " + hash;
+                status = "Added image to IPFS " + hash+" Ready to submit.";
                 // let res = await axios.get("https://ipfs.io/ipfs/" + hash);
                 // image = res.data;
                 image_uploaded = true;
@@ -29,7 +29,12 @@
             description: description,
             image: hash
         });
-        status = "Added Gyaan to ipfs " + gyaan_hash;
+        status = "Added Gyaan to ipfs " + gyaan_hash + " Adding to ethereum blockchain...";
+        console.log(typeof (gyaan_hash))
+        let tx = await erc721.functions.mintUniqueTokenTo(await wallet.getAddress(), gyaan_hash);
+        status = "Transaction added " + tx.hash + " Waiting for transaction to be mined...";
+        let block = await tx.wait();
+        status = "Transaction mined. Block Number"+ block.blockNumber;
     }
 </script>
 
@@ -57,7 +62,11 @@
                     Status: {status}
                 {/if}
             </div>
-            <button type="submit" class="btn btn-primary" class:disabled={!image_uploaded}>Submit</button>
+            <div class="form-group">
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary" class:disabled={!image_uploaded}>Submit</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
