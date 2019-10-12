@@ -9,18 +9,18 @@
         logs.unshift("Waiting for transaction 'approve' of "+token_id);
         logs = logs;
         let tx_approve = await erc721.functions.approve(cryptoGyaan.address, token_id);
-        logs.unshift("Transaction approved. Waiting for transaction to get mined");
+        logs.unshift(`Transaction approved. Waiting for transaction ${tx_approve.hash} to get mined`);
         logs = logs;
-        await tx_approve.wait();
-        logs.unshift("Approve transaction mined");
+        let block = await tx_approve.wait();
+        logs.unshift(`Approve transaction added in block ${block.blockNumber}`);
         logs.unshift("Initiate Place order transaction.");
         logs = logs;
         let tx = await cryptoGyaan.functions.place_order(token_id, String(ethers.utils.parseEther(String(price))));
-        logs.unshift("Transaction placed.");
-        logs.unshift("Waiting for transaction to be mined.");
+        logs.unshift("Transaction placed. Transaction hash: "+tx.hash);
+        logs.unshift("Waiting for transaction to be mine." );
         logs = logs;
-        await tx.wait();
-        logs.unshift("transaction mined");
+        block = await tx.wait();
+        logs.unshift("transaction mined. Block Number:"+block.blockNumber);
         logs = logs;
     }
 </script>
