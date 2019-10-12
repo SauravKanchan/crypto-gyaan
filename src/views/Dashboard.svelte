@@ -117,6 +117,9 @@
         {/if}
     {/if}
 </div>
+
+
+<!--Tokens for sale-->
 <div class="row">
     <div class="col-md-12">
         <div class="h2">My Tokens:</div>

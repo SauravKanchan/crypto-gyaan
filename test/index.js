@@ -91,6 +91,18 @@ describe('Crypto Gyaan', async () => {
         }
     });
 
+
+    it('Cancel Order with different account', async () => {
+        let cryptoGyaan2 = new ethers.Contract(cryptoGyaan.address, cryptoGyaanJson.abi, provider.getSigner(accounts[1]));
+        try {
+            let tx = await cryptoGyaan2.functions.cancel_order(1);
+            await tx.wait();
+        } catch (e) {
+            let order = await cryptoGyaan2.functions.total_order(1);
+            assert.ok(order.status === 1, "Check status of order to cancelled");
+        }
+    });
+
     it('Cancel Order unsold', async () => {
         let tx = await cryptoGyaan.functions.cancel_order(1);
         await tx.wait();
@@ -102,7 +114,7 @@ describe('Crypto Gyaan', async () => {
         try {
             let tx = await cryptoGyaan.functions.cancel_order(0);
             await tx.wait();
-        }catch (e) {
+        } catch (e) {
             let order = await cryptoGyaan.functions.total_order(0);
             assert.ok(order.status === 2, "Check status of order to sold");
         }
@@ -112,11 +124,12 @@ describe('Crypto Gyaan', async () => {
         try {
             let tx = await cryptoGyaan.functions.cancel_order(1);
             await tx.wait();
-        }catch (e) {
+        } catch (e) {
             let order = await cryptoGyaan.functions.total_order(1);
             assert.ok(order.status === 3, "Check status of order to cancelled");
         }
     });
+
 
 });
 
