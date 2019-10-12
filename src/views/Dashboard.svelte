@@ -104,29 +104,8 @@
 
     }
 
-    async function startup() {
-        my_tokens = [];
-        token_images = [];
-        token_title = [];
-        token_description = [];
-        token_exist = false;
-        total_tokens = 1;
 
-        my_tokens_sale = [];
-        token_images_sale = [];
-        token_title_sale = [];
-        token_description_sale = [];
-        token_exist_sale = false;
-        total_tokens_sale = 1;
-        order_sale = [];
-
-        my_tokens_buy = [];
-        token_images_buy = [];
-        token_title_buy = [];
-        token_description_buy = [];
-        token_exist_buy = false;
-        total_tokens_buy = 1;
-
+    onMount(async () => {
         wallet_address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
         total_tokens = parseInt(await window.erc721.functions.balanceOf(wallet.address));
@@ -141,16 +120,10 @@
             let order_id = await cryptoGyaan.functions.order_by_address(await wallet.getAddress(), o);
             let order = await cryptoGyaan.functions.total_order(order_id);
             order_status.push(parseInt(order.status));
-            console.log(order_status);
-            order_sale.unshift(parseInt(order_id));
+            order_sale.push(parseInt(order_id));
             add_token_sale(parseInt(order.token_id));
 
-        }
-    }
-
-    onMount(async () => {
-        startup();
-    });
+        }    });
 
     async function cancel_order(e) {
         let order_id = e.explicitOriginalTarget.attributes.data.value;
@@ -158,7 +131,6 @@
         await tx.wait();
         let index = my_tokens_sale.indexOf(order_id);
         message = "Successfully deleted";
-        startup();
     }
 
 </script>
