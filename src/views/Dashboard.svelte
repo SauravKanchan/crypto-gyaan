@@ -130,15 +130,14 @@
         let tx = await cryptoGyaan.functions.cancel_order(order_id);
         await tx.wait();
         let index = my_tokens_sale.indexOf(order_id);
-        message = "Successfully deleted";
+        let order = await cryptoGyaan.functions.total_order(order_id);
+        order_status[order_sale.indexOf(parseInt(order_id))] = 3;
+        order_status = order_status;
+        await add_token(parseInt(order.token_id));
     }
 
 </script>
-{#if message}
-    <div class="alert alert-primary" role="alert">
-        This is a primary alert—check it out!
-    </div>
-{/if}
+
 {#if wallet}
     <div class="row m-5">
         <div class="col-md-7 h5">
