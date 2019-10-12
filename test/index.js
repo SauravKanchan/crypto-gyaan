@@ -50,10 +50,16 @@ describe('Crypto Gyaan', async () => {
     });
 
     it('Add new order', async () => {
-        let tx_approve = await erc721.functions.approve(cryptoGyaan.address, 0);
-        await tx_approve.wait();
-        let tx = await cryptoGyaan.functions.place_order(0, 10 ** 8);
-        await tx.wait();
+        let tx1 = await erc721.functions.approve(cryptoGyaan.address, 0);
+        await tx1.wait();
+        let tx2 = await cryptoGyaan.functions.place_order(0, 10 ** 8);
+        await tx2.wait();
+
+        let tx3 = await erc721.functions.approve(cryptoGyaan.address, 1);
+        await tx3.wait();
+        let tx4 = await cryptoGyaan.functions.place_order(1, 10 ** 8);
+        await tx4.wait();
+
         assert.ok(await cryptoGyaan.functions.total_order(0), "Order placed");
     });
 
@@ -80,9 +86,37 @@ describe('Crypto Gyaan', async () => {
             await tx.wait();
             assert.ok(await cryptoGyaan.functions.total_order(0), "Buy order")
         } catch (e) {
-            console.log(await cryptoGyaan.functions.total_order(0));
+            // console.log(await cryptoGyaan.functions.total_order(0));
             assert.ok(e.message.includes('revert'), e.message)
         }
     });
+
+    it('Cancel Order unsold', async () => {
+        let tx = await cryptoGyaan.functions.cancel_order(1);
+        await tx.wait();
+        let order = await cryptoGyaan.functions.total_order(1)
+        assert.ok(order.status === 3, "Check status of order to cancel");
+    });
+
+    it('Cancel Order sold', async () => {
+        try {
+            let tx = await cryptoGyaan.functions.cancel_order(0);
+            await tx.wait();
+        }catch (e) {
+            let order = await cryptoGyaan.functions.total_order(0);
+            assert.ok(order.status === 2, "Check status of order to sold");
+        }
+    });
+
+    it('Cancel Order cancelled', async () => {
+        try {
+            let tx = await cryptoGyaan.functions.cancel_order(1);
+            await tx.wait();
+        }catch (e) {
+            let order = await cryptoGyaan.functions.total_order(1);
+            assert.ok(order.status === 3, "Check status of order to cancelled");
+        }
+    });
+
 });
 

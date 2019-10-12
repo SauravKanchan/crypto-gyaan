@@ -46,17 +46,21 @@ contract CryptoGyaan {
     }
 
     function buy_order(uint256 _order_id) public payable returns (bool){
-        Order memory order = total_order[_order_id];
+        Order storage order = total_order[_order_id];
+        require(order.status == 1, "Order already sold");
         require(msg.value == order.price, "Ether price does not match");
         erc721.transferFrom(address(this), msg.sender, order.token_id);
         require(erc721.ownerOf(order.token_id) == msg.sender, "Token transfered to buyer failed");
+        order.status = 2;
+        order.buyer = msg.sender;
         emit Buy(msg.sender, _order_id);
         return true;
     }
 
     function cancel_order(uint256 _order_id) public returns (bool){
-        Order memory order = total_order[_order_id];
+        Order storage order = total_order[_order_id];
         require(msg.sender == order.seller, "Check for owner");
+        require(order.status == 1, "It should be unsold");
         order.status = 3;
         erc721.transferFrom(address(this), msg.sender, order.token_id);
         require(erc721.ownerOf(order.token_id) == msg.sender, "Token transfered to buyer failed");
