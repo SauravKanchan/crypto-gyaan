@@ -1,4 +1,6 @@
 <script>
+    import {onMount} from 'svelte';
+
     let wallet_address = "loading...";
     let balance = "loading...";
     const config = require("../../config.json");
@@ -10,14 +12,17 @@
     let token_images = [];
     let token_title = [];
     let token_description = [];
+    let token_exist = false;
+    let total_tokens = 1;
 
     // Remove after completion
     window.wallet = new ethers.Wallet(config.private_key, provider);
 
-    window.crypto_gyaan = new ethers.Contract(config.CryptoGyaan, crypto_gyaan_json.abi, wallet);
+    window.cryptoGyaan = new ethers.Contract(config.CryptoGyaan, crypto_gyaan_json.abi, wallet);
     window.erc721 = new ethers.Contract(config.MyERC721, erc721.abi, wallet);
 
     async function add_token(token_id) {
+        token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
         let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
@@ -36,18 +41,13 @@
 
     }
 
-    (async () => {
+    onMount(async () => {
         wallet_address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
-
-        for (let i = 0; i < await window.erc721.functions.balanceOf(wallet.address); i++) {
+        total_tokens = await window.erc721.functions.balanceOf(wallet.address);
+        for (let i = 0; i < total_tokens; i++) {
             add_token(parseInt(await window.erc721.functions.tokenOfOwnerByIndex(wallet.address, i)));
         }
-
-
-    })().catch(err => {
-        console.error(err);
-
     });
 </script>
 {#if wallet}
@@ -69,23 +69,31 @@
 {/if}
 <div class="row">
     <div class="col-md-12">
-        <div class="h2">My Tokens: </div>
+        <div class="h2">My Tokens:</div>
     </div>
-    {#if my_tokens.length}
-        {#each my_tokens as token, i}
-            <div class="col-md-3">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src={token_images[i]} alt="Token Image">
-                    <div class="card-body">
-                        <h6 class="card-subtitle mb-2 text-muted">Toke Id: {token}</h6>
-                        <h5 class="card-title">{token_title[i]}</h5>
-                        <p class="card-text">{token_description[i]}</p>
-                        <!--                    <a href="#" class="btn btn-primary">Go somewhere</a>-->
+    {#if token_exist }
+        {#if my_tokens.length}
+            {#each my_tokens as token, i}
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src={token_images[i]} alt="Token Image">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Toke Id: {token}</h6>
+                            <h5 class="card-title">{token_title[i]}</h5>
+                            <p class="card-text">{token_description[i]}</p>
+                            <a href={"/AddGyaanToSale/"+token} class="btn btn-dark">Sell</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {/each}
+            {/each}
+        {:else}
+            <div class="h2">Your tokens is yet to be loaded.</div>
+        {/if}
     {:else}
-        <div class="h2">You don't have any tokens or it is yet to be loaded</div>
+        {#if total_tokens}
+            <div class="h2">You don't have any tokens or it is yet to be fetched from blockchain.</div>
+        {:else}
+            <div class="h2">You don't have any tokens.</div>
+        {/if}
     {/if}
 </div>
