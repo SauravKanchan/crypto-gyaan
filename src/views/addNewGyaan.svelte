@@ -1,5 +1,5 @@
 <script>
-    let image = "", status = "", image_path = "", hash = "", title = "", description = "", gyaan_hash = "",
+    let image = "", logs = [], image_path = "", hash = "", title = "", description = "", gyaan_hash = "",
             image_uploaded = false;
 
     async function upload(e) {
@@ -8,10 +8,11 @@
 
             FR.addEventListener("load", async function (e) {
                 let base64 = e.target.result;
-                status = "Adding image to IPFS...";
+                logs.unshift("Adding image to IPFS...");
+                logs = logs;
                 hash = await ipfs.add(base64);
-                status = "Added image to IPFS. IPFS hash: " + hash+". Ready to submit.";
-
+                logs.unshift("Added image to IPFS. IPFS hash: " + hash + ". Ready to submit.");
+                logs = logs;
                 image_uploaded = true;
             });
 
@@ -21,18 +22,21 @@
 
     async function upload_gyaan(e) {
         e.preventDefault();
-        status = "Adding gyaan to IPFS...";
+        logs.unshift("Adding gyaan to IPFS...");
+        logs = logs;
         gyaan_hash = await ipfs.addJSON({
             title: title,
             description: description,
             image: hash
         });
-        status = "Added Gyaan to ipfs. IPFS hash: " + gyaan_hash + ". Adding to ethereum blockchain...";
-        console.log(typeof (gyaan_hash));
+        logs.unshift("Added Gyaan to ipfs. IPFS hash: " + gyaan_hash + ". Adding to ethereum blockchain...");
+        logs = logs;
         let tx = await erc721.functions.mintUniqueTokenTo(await wallet.getAddress(), gyaan_hash);
-        status = "Transaction added. Transaction hash: " + tx.hash + " Waiting for transaction to be mined...";
+        logs.unshift("Transaction added. Transaction hash: " + tx.hash + " Waiting for transaction to be mined...");
+        logs = logs;
         let block = await tx.wait();
-        status = "Transaction mined. Block Number: "+ block.blockNumber;
+        logs.unshift("Transaction mined. Block Number: " + block.blockNumber);
+        logs = logs;
     }
 </script>
 
@@ -56,15 +60,24 @@
                        on:change={upload}>
             </div>
             <div class="form-group">
-                {#if status}
-                    Status: {status}
-                {/if}
-            </div>
-            <div class="form-group">
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary" class:disabled={!image_uploaded}>Submit</button>
                 </div>
             </div>
         </form>
+    </div>
+</div>
+<div class="d-flex justify-content-center m-4">
+    <div class="h2">Logs</div>
+</div>
+<div class="d-flex justify-content-center m-4">
+    <div class="card">
+        <ul class="list-group list-group-flush">
+            {#each logs as log}
+                <li class="list-group-item">
+                    {log}
+                </li>
+            {/each}
+        </ul>
     </div>
 </div>
