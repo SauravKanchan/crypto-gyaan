@@ -2,14 +2,13 @@
 
     let size = 128;
     let is_256 = false;
-    let clipboard = bip39.generateMnemonic(size);
-    let mnemonic = clipboard.split(" ");
-    let saved_mnemonic = mnemonic;
-    let wallet_password="";
-    let wallet = "";
+    let clipboard = bip39.generateMnemonic(size).split(" ");
+    let mnemonic = [...clipboard];
+    let wallet_password = "";
     let status = 1;  // 1=> noted mnemonic 2=> submit mnemonic 3=> generate wallet 4=> Loading 5=> Login
     let noted = false;
     let difficulty = 2;
+    let correct = new Set();
 
     function getRandom(arr, n) {
         var result = new Array(n),
@@ -26,15 +25,15 @@
     function generate_random() {
         status = 1;
         noted = false;
-        let size = is_256? 256: 128;
-        clipboard = bip39.generateMnemonic(size)
-        mnemonic = clipboard.split(" ");
+        let size = is_256 ? 256 : 128;
+        clipboard = bip39.generateMnemonic(size).split(" ");
+        mnemonic = [...clipboard];
     }
-    
+
     function noted_down() {
         status = 2;
         let indexs = getRandom(mnemonic, difficulty);
-        for(let i =0 ; i<difficulty;i++){
+        for (let i = 0; i < difficulty; i++) {
             mnemonic[indexs[i]] = ""
         }
     }
@@ -43,14 +42,36 @@
         is_256 = !is_256;
         generate_random();
     }
+
+    function check_mnemonic(e) {
+        if (e.srcElement.attributes.data.value === e.srcElement.value) {
+            correct.add(e.srcElement.attributes.data.value);
+        }
+        if (correct.size === difficulty) {
+            status = 3
+        }
+        console.log(correct.size, e.srcElement.attributes.data.value, e.srcElement.value, e.srcElement.attributes.data.value === e.srcElement.value);
+    }
 </script>
+<style>
+    .hide {
+        display: none;
+    }
+</style>
 <div class="row mt-4">
     <button class="btn btn-primary mr-3" on:click={generate_random}>Generate Random</button>
-    <button  class="btn btn-primary mr-3"  on:click={noted_down} class:hide={status!=1}>I Wrote down My Mnemonic Phrase</button>
-    <button class="btn" class:btn-secondary={!is_256} class:btn-primary={is_256} on:click={toggle_count}>24 Words</button>
+    <button class="btn btn-primary mr-3" on:click={noted_down} class:hide={status!=1}>Noted Mnemonic Phrase</button>
+    <button class="btn btn-primary mr-3" class:hide={status==1} class:btn-dark={status!=3} disabled={status!=3}>Submit
+    </button>
+    <button class="btn" class:btn-secondary={!is_256} class:btn-primary={is_256} on:click={toggle_count}>24 Words
+    </button>
 </div>
 <div class="row mt-4">
     {#each mnemonic as word, i}
-        <div class="col-md-3 p-1" data={word}>{i+1}. {word}</div>
+        {#if word}
+            <div class="col-md-3 p-1" data={word}>{i+1}. {word}</div>
+        {:else}
+            <div class="col-md-3 p-1">{i+1}. <input data={clipboard[i]} on:change={check_mnemonic} type="text"></div>
+        {/if}
     {/each}
 </div>
