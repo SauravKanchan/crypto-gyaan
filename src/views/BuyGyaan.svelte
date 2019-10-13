@@ -82,7 +82,7 @@
 {/if}
 <div class="row mt-4">
     <div class="col-md-12 mt-4">
-        <div class="h2 strong">Tokens for sale:</div>
+        <div class="h2 strong">Gyaans for sale:</div>
     </div>
     {#if token_exist }
         {#if my_tokens.length}
