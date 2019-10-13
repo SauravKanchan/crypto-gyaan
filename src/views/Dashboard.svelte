@@ -106,16 +106,16 @@
     }
 
 
-    (async () => {
+     onMount(async () => {
         address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
-        total_tokens = parseInt(await window.erc721.functions.balanceOf(wallet.address));
+        total_tokens = parseInt(await window.erc721.functions.balanceOf(await wallet.getAddress()));
         token_exist = Boolean(total_tokens);
         let total_order_by_user = parseInt(await cryptoGyaan.functions.total_order_by_address(await wallet.getAddress()));
         total_tokens_sale = total_order_by_user;
         token_exist_sale = Boolean(total_order_by_user);
         for (let i = 0; i < total_tokens; i++) {
-            add_token(parseInt(await window.erc721.functions.tokenOfOwnerByIndex(wallet.address, i)));
+            add_token(parseInt(await window.erc721.functions.tokenOfOwnerByIndex(await wallet.getAddress(), i)));
         }
         for (let o = 0; o < total_order_by_user; o++) {
             let order_id = await cryptoGyaan.functions.order_by_address(await wallet.getAddress(), o);
@@ -125,7 +125,7 @@
             add_token_sale(parseInt(order.token_id));
 
         }
-    })();
+    });
 
     async function cancel_order(e) {
         let order_id = e.explicitOriginalTarget.attributes.data.value;
@@ -136,6 +136,8 @@
         order_status[order_sale.indexOf(parseInt(order_id))] = 3;
         order_status = order_status;
         await add_token(parseInt(order.token_id));
+        total_tokens = parseInt(await window.erc721.functions.balanceOf(await wallet.getAddress()));
+
     }
 
 </script>

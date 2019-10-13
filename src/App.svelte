@@ -9,7 +9,9 @@
 
     function logout() {
         address = "";
-        window.wallet = undefined;
+
+        window.location.href = "/"
+
     }
 
     import {

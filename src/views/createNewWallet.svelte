@@ -7,7 +7,7 @@
     let wallet_password = "";
     let status = 1;  // 1=> noted mnemonic 2=> submit mnemonic 3=> generate wallet 4=> Loading 5=> Login
     let noted = false;
-    let difficulty = 1;
+    let difficulty = 4;
     let correct = new Set();
     let message = "";
     let success = false;
