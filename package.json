@@ -31,6 +31,7 @@
     "ethers": "^4.0.37",
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.7.0",
+    "gh-pages": "^2.1.1",
     "image-to-base64": "^2.0.1",
     "ipfs-mini": "^1.1.5",
     "mocha": "^6.2.1",
