@@ -4,9 +4,12 @@
     window.bip39 = require('bip39');
     window.ethers = require('ethers');
     window.ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
-
+    let address;
     router.start();
 
+    function logout() {
+        window.location.href = "/"
+    }
 
     import {
         Collapse,
@@ -39,10 +42,21 @@
                 <NavItem>
                     <NavLink href="/accessMyWallet">Access My Wallet</NavLink>
                 </NavItem>
+                {#if address}
+                    <NavItem>
+                        <NavLink href="/dashboard">Dashboard</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/addNewGyaan">Add New Gyaan</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink href="/" on:click={logout}>Logout</NavLink>
+                    </NavItem>
+                {/if}}
             </Nav>
         </Collapse>
 </Navbar>
 <div class="container">
-    <svelte:component this={$page.component} {...$page.props}/>
+    <svelte:component this={$page.component} {...$page.props} bind:address={address}/>
 </div>
 

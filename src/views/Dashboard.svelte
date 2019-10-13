@@ -1,7 +1,7 @@
 <script>
     import {onMount} from 'svelte';
 
-    let wallet_address = "loading...";
+    export let address = "";
     let balance = "loading...";
     const config = require("../../config.json");
     const axios = require('axios');
@@ -106,7 +106,7 @@
 
 
     onMount(async () => {
-        wallet_address = await wallet.getAddress();
+        address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
         total_tokens = parseInt(await window.erc721.functions.balanceOf(wallet.address));
         token_exist = Boolean(total_tokens);
@@ -141,7 +141,7 @@
 {#if wallet}
     <div class="row m-5">
         <div class="col-md-7 h5">
-            <strong>Address:</strong> {wallet_address}
+            <strong>Address:</strong> {address}
         </div>
         <div class="col-md-3 h5">
             <strong>Balance:</strong> {balance}
@@ -157,7 +157,7 @@
 {/if}
 <div class="row">
     <div class="col-md-12">
-        <div class="h2">My Tokens:</div>
+        <div class="h2 strong">My Tokens:</div>
     </div>
     {#if token_exist }
         {#if my_tokens.length}
@@ -175,13 +175,13 @@
                 </div>
             {/each}
         {:else}
-            <div class="h2">Your tokens are yet to be loaded.</div>
+            <div class="h2 strong">Your tokens are yet to be loaded.</div>
         {/if}
     {:else}
         {#if total_tokens}
-            <div class="h2">You don't have any tokens or it is yet to be fetched from blockchain.</div>
+            <div class="h2 strong">You don't have any tokens or it is yet to be fetched from blockchain.</div>
         {:else}
-            <div class="h2">You don't have any tokens.</div>
+            <div class="h2 strong">You don't have any tokens.</div>
         {/if}
     {/if}
 </div>
@@ -190,7 +190,7 @@
 <!--Tokens for sale-->
 <div class="row">
     <div class="col-md-12">
-        <div class="h2">My Orders</div>
+        <div class="h2 strong">My Sell Orders:</div>
     </div>
     {#if token_exist_sale }
         {#if my_tokens_sale.length}
@@ -217,13 +217,13 @@
                 </div>
             {/each}
         {:else}
-            <div class="h2">Your orders are yet to be loaded.</div>
+            <div class="h2 strong">Your orders are yet to be loaded.</div>
         {/if}
     {:else}
         {#if total_tokens_sale}
-            <div class="h2">You don't have any orders or it is yet to be fetched from blockchain.</div>
+            <div class="h2 strong">You don't have any orders or it is yet to be fetched from blockchain.</div>
         {:else}
-            <div class="h2">You don't have any orders.</div>
+            <div class="h2 strong">You don't have any orders.</div>
         {/if}
     {/if}
 </div>

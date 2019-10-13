@@ -1,4 +1,5 @@
 <script>
+    export let address;
     import {
         Container, Button, CardBody, CardHeader, CardText, CardTitle
     } from 'sveltestrap';
