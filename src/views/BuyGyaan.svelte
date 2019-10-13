@@ -86,9 +86,9 @@
     </div>
     {#if token_exist }
         {#if my_tokens.length}
+            <div class="card-columns">
             {#each my_tokens as token, i}
-                <div class="col-md-3">
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                         <img class="card-img-top" src={token_images[i]} alt="Token Image">
                         <div class="card-body">
                             <h6 class="card-subtitle mb-2 text-muted">Token Id: {token}</h6>
@@ -104,8 +104,9 @@
                             {/if}
                         </div>
                     </div>
-                </div>
             {/each}
+        </div>
+
         {:else}
             <div class="h2 strong">Gyaans are yet to be loaded.</div>
         {/if}
