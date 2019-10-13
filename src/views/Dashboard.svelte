@@ -161,7 +161,7 @@
 {/if}
 <div class="row">
     <div class="col-md-12">
-        <div class="h2 strong">My Tokens ({total_tokens} tokens):</div>
+        <div class="h2 strong">My Gyaans ({total_tokens} gyaan):</div>
     </div>
     {#if token_exist }
         {#if my_tokens.length}

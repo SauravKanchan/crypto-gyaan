@@ -4,7 +4,7 @@
   "description": "Buy and sell gyaan from the community.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build ; fi ",
+    "postinstall": "if test \"$NODE_ENV\" = \"production\" ; then npm run build && cp public/css/bootstrap.min.css dist/css/ ; fi ",
     "start": "node server.js",
     "test": "mocha --timeout 3000000 -R spec --ui bdd",
     "build": "cross-env NODE_ENV=production webpack",
