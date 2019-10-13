@@ -66,42 +66,27 @@
         console.log(`Loaded ${token_id}`);
     }
 
-    async function add_token_sale(token_id) {
-        token_exist_sale = true;
+    async function add_token_sale(token_id, status, order_id) {
+        token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
         let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
+        order_status.unshift(status);
+        order_sale.unshift(order_id);
         my_tokens_sale.unshift(token_id);
         token_title_sale.unshift(data.title);
         token_description_sale.unshift(data.description);
         token_images_sale.unshift(" data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgWFQkVGSEbGBIYGRggIBwcHhoeHRsdGhsgJjQlHh8nJxseJj0mKDUrLjAuHSM/RDctNygtLi0BCgoKDQgNDw0NDisZExkrKysrKysrKysrKysrKzcrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIASwBlwMBIgACEQEDEQH/xAAcAAEAAwADAQEAAAAAAAAAAAAABQYHAgQIAwH/xAA5EAEAAQMCBAMGAwUJAQAAAAAAAQIDBAURBhIhMQcTFBUyQVFhcSJSkTM1QmKBFyMkU3ShscLRFv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A3EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFxprVfD3DmZqVqjmuUx+GPrPbcE6PPfDPijxF/wDQY8Z+R5mNcrimaNu0VTt+F6EBgXi3xdq8cTX9Mxcqq3jWto2pnbedu8rN4H8S6lq0Z2n6jem5TbiKqa6u8bzttusXGXhzpXFeXTmX71VvJ22mqnbrH1iUnwdwhp3CWJXZwN6rlXWq5V3kRYZnZ1adSwa73k05lubv5eenf9N1G8atezNG4csWcG5NNd6qaZqjvERG87PPtF+9bvReouzF3ffm367/AHB7GFM8Kteyde4UtXs6re/RM0TV89u0rmKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOnqun4+qaffwc2jexXG0w++RkWcWxXfyLkU2qY3mqe0QhtH4v0HWsqrF07UaK78fw/Gft8wVzQ/CfQ9J1W3nxdruTTO9NFW20T8Pu0EAAAVrjvhazxZos4VdzlvUzzUV/Kfr9GNWfCLiavO8i5bops7/tObpt89nopQfE/jueFbFvFwaYnULkbxv2pj5iLJwnoFjhrRLGm49W/L1qq/NVPeU08wT4i8Wzf832zX393pt+jX/C/j2riq1dw9QpiNQojfp2qj57A0AAUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABUfFHT87U+DcvH02Jm9vE8sd5iO8MR8PdD1fI4swasbGrp8uuJqqmJiIiO+8vTjhTRTTvyUxG4OYAAADz346WL1HGVN65E+VVbp5Z+3dvWfnYunY1eTm34osx3qmWb8WcR8CcXY8YObqG1yPcu8s9J+/yBg7RPAyxer4086imfKpt1c0/fslMbwXvZfJfxdet1Yk9qopmZmP8AhqHBvCWn8J4NWPgxM3autdye9U/+CLEAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIfivW6OHtBy9Tro5pojpT85+EJhH67pWNrmlZGnZkf3NcbT9PrAMf4c8YNUyNcsWNUx6JxK6op2pjaY3naOvxbgyrQPB3G03WbWbl6h5lmirmpo223mO3NLVQBmviT4kXuGNQp0zTsamrJ2iqqqrtET2jZMeHPGscX6fdqvWeTLtztVEdp37TAMw8bteyMziSdLprmMWzEfh+dU95lmzWfGvhPKp1T27h2pqx642r2jflmPj9mTxEzO0R1VGt+A+u5Pr8nRbtczjzTz0xM+7Md9m3Mh8EeFMvBrv63n2po5qeW3TMbTt8Za8igAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM58RvDaeKc6nUcHKi3lbRFUVR0mI7Jfw94KtcH4N2ib/AD5Nyd6qvh0+ELeA4V0U10zRXTE0z3iUZb4b0W3kefRpVqLu+/Nyx3SwDjEREbRHRyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHWzM3FwaKbmblUW6JmKYqrqppiap7REz8fo+l65RYtV3btcU26Y3mqZ2iIjvMz8IUnxg/cOmf6u1/2fvitzeztI8392+rt+o37cm/8AH/Lvt/sC2adq2nap5nszULV7l97y7lNW2/bflmdu0uftHB9f6D1lv1u2/k89PPt8+TffZT+JaqKPEXhmrBn/ABEUXZvTT/kcvTn/AJd99t/io1WXl+u/tB9n3eT1f7bmo5PTbeTy8vPz7/Xl2+oNgy+INFwcqcbN1exbyI70V3bdNUb9vwzO766hrGmaXNuNT1K1amr3fMuUU77d9uaY37wpen14dzxA4vrzJpnCnGtTVM9uTy+u/wBNlYv+r/se0r1e/L6mjyubv5XPPJ/Tbt9Nga3TrGmVXca1TqVqbl2N7dPmUb1x86I3/FH2fazm4t+/fx7GTRVetzEV0RVEzRM9Y5oj3d/qoHGulTrHHunY1qvlyoxa67Vf5btFyKqKv1j9N1NvajnarpHHebYsVW7tVdiL1v40xTzU3o6fDeJ/oDaMPXNI1DInGwNUs3b8dZoou0VTtHedondJKb7Xw7GscPaXY0y1Vp9yia8e/Tc9yKLfWeTk2jpVt0qSmJxdoWZ6H0+dv6ia6bX4Lkc02/fjrT02+uwJ4dDSNWwtawac7TL/AD40zMRVy1R1pnaelURPeHfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1M7T8LUrEWdRw7d2zvvyXKaao3+e1Ud3yxNG0vBsXrGFplm3ZudK6KLdFMVRtttVER16T8UgAj8LRtK0+3etYOmWbduvpXTRbopiqOvSqIjr3nv8319nYM4Hs/0Vv0W23k8lPJt8uTbbZ2wETkcN6Fk3Yu5Oi49VyIiOaqzbmdojamN5jtERs++oaPpmqTbnU9NtXZp93zLdFW2/fbmidu0O+A6dnTcCxcs3LODbpuW6eSiYopiaafy0zEdKfpDlj4OJjXr9/GxKKL1yd66qaaYmufnXMe9PWe7tAI3E0LR8G/N/C0qxbvfnotUUztPfrEOVrRtLs+R5Om2afLmZt7W6I5Jq96aen4Zn47d0gA62Hh42BZjHwcam3ZjrFFFMUxvPWekOyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/2Q==");
         my_tokens_sale = my_tokens_sale;
-        token_title_sale = token_title_sale;
+        token_title_sale= token_title_sale;
         token_description_sale = token_description_sale;
         token_images_sale = token_images_sale;
+        order_sale = order_sale;
+        order_status = order_status;
         let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
         token_images_sale[my_tokens_sale.indexOf(token_id)] = image_res.data;
         token_images_sale = token_images_sale;
-        // console.log(`Loaded ${token_id}`);
-    }
-
-    async function token_for_sale(token_id) {
-        token_exist = true;
-        let token_uri = await window.erc721.functions.tokenURI(token_id);
-        let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
-        let data = res.data;
-        my_tokens.unshift(token_id);
-        token_title.unshift(data.title);
-        token_description.unshift(data.description);
-        token_images.unshift(" data:image/jpeg;base64,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");
-        my_tokens = my_tokens;
-        token_title = token_title;
-        token_description = token_description;
-        token_images = token_images;
-        let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
-        token_images[my_tokens.indexOf(token_id)] = image_res.data;
-        token_images = token_images;
-        // console.log(`Loaded ${token_id}`);
+        console.log("asdf",`Loaded ${token_id}`);
 
     }
 
@@ -118,17 +103,14 @@
             add_token(parseInt(await window.erc721.functions.tokenOfOwnerByIndex(await wallet.getAddress(), i)));
         }
         for (let o = 0; o < total_order_by_user; o++) {
-            let order_id = await cryptoGyaan.functions.order_by_address(await wallet.getAddress(), o);
+            let order_id = parseInt(await cryptoGyaan.functions.order_by_address(await wallet.getAddress(), o));
             let order = await cryptoGyaan.functions.total_order(order_id);
-            order_status.push(parseInt(order.status));
-            order_sale.push(parseInt(order_id));
-            add_token_sale(parseInt(order.token_id));
-
+            add_token_sale(parseInt(order.token_id), parseInt(order.status), order_id);
         }
     });
 
     async function cancel_order(e) {
-        let order_id = e.explicitOriginalTarget.attributes.data.value;
+        let order_id = e.srcElement.attributes.data.value;
         let tx = await cryptoGyaan.functions.cancel_order(order_id);
         await tx.wait();
         let index = my_tokens_sale.indexOf(order_id);
@@ -142,9 +124,9 @@
 
 </script>
 
-{#if wallet}
+{#if address}
     <div class="row m-5">
-        <div class="col-md-7 h5">
+        <div class="col-md-7 h5 text-truncate">
             <strong>Address:</strong> {address}
         </div>
         <div class="col-md-3 h5">
@@ -219,6 +201,8 @@
                                 <p class="card-text">Order Cancelled</p>
                             {:else if order_status[i] ===2 }
                                 <p class="card-text">Order Completed</p>
+                                {:else}
+                                {order_status[i]}
                             {/if}
                         </div>
                     </div>

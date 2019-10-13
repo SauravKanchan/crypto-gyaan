@@ -64,10 +64,12 @@
 
     async function buy_order(e) {
         success = false;
-        let order_id = e.explicitOriginalTarget.attributes.data.value;
+        let order_id = e.srcElement.attributes.data.value;
         let order = await cryptoGyaan.functions.total_order(order_id);
         message = "Transaction initiated.";
-        let tx = await cryptoGyaan.functions.buy_order(order_id, {value: parseFloat(order.price)});
+        let tx = await cryptoGyaan.functions.buy_order(order_id, {
+            value: order.price
+        });
         message = "Waiting for transaction to get confirm.";
         await tx.wait();
         message = `Transaction Confirmed. You can check the transaction in https://${config.network}.etherscan.io/tx/${tx.hash}`;
@@ -87,7 +89,7 @@
     {#if token_exist }
         {#if my_tokens.length}
             <div class="card-columns">
-            {#each my_tokens as token, i}
+                {#each my_tokens as token, i}
                     <div class="card">
                         <img class="card-img-top" src={token_images[i]} alt="Token Image">
                         <div class="card-body">
@@ -104,8 +106,8 @@
                             {/if}
                         </div>
                     </div>
-            {/each}
-        </div>
+                {/each}
+            </div>
 
         {:else}
             <div class="h2 strong">Gyaans are yet to be loaded.</div>

@@ -60,7 +60,12 @@
     }
 
     async function load_by_metamask() {
-        await window.ethereum.enable();
+        try{
+            await window.ethereum.enable();
+        }catch (e) {
+            console.error(e);
+        }
+
         provider = new ethers.providers.Web3Provider(web3.currentProvider);
         window.wallet = provider.getSigner();
         document.getElementById("dashboard").click();
