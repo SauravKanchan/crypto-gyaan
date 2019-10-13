@@ -5,7 +5,7 @@
     let keystore = "";
     let wallet_password = "";
     let private_key = "";
-    let provider = new ethers.providers.InfuraProvider(config.provider);
+    let provider = new ethers.providers.InfuraProvider(config.network);
     let load_wallet_by = "mnemonic";
     let load_wallet_message = "Load Wallet";
 
@@ -104,8 +104,8 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center m-4 row">
-    <div class="card col-md-6">
+<div class="mx-auto mt-4 row">
+    <div class="card col-md-6 offset-md-3">
         <div class="card-body form-group ">
 
             {#if load_wallet_by==="mnemonic"}
