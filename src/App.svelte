@@ -3,7 +3,8 @@
     const IPFS = require('ipfs-mini');
     window.bip39 = require('bip39');
     window.ethers = require('ethers');
-    window.ipfs = new IPFS({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
+    const config = require('../config.json');
+    window.ipfs = new IPFS({ host: config.ipfs, port: 5001, protocol: 'https' });
     let address;
     router.start();
 
