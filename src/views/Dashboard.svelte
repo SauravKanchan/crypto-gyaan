@@ -82,7 +82,7 @@
         let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
         token_images_sale[my_tokens_sale.indexOf(token_id)] = image_res.data;
         token_images_sale = token_images_sale;
-        console.log(`Loaded ${token_id}`);
+        // console.log(`Loaded ${token_id}`);
     }
 
     async function token_for_sale(token_id) {
@@ -101,12 +101,12 @@
         let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
         token_images[my_tokens.indexOf(token_id)] = image_res.data;
         token_images = token_images;
-        console.log(`Loaded ${token_id}`);
+        // console.log(`Loaded ${token_id}`);
 
     }
 
 
-    onMount(async () => {
+    (async () => {
         address = await wallet.getAddress();
         balance = ethers.utils.formatEther(String(await wallet.getBalance()));
         total_tokens = parseInt(await window.erc721.functions.balanceOf(wallet.address));
@@ -124,7 +124,8 @@
             order_sale.push(parseInt(order_id));
             add_token_sale(parseInt(order.token_id));
 
-        }    });
+        }
+    })();
 
     async function cancel_order(e) {
         let order_id = e.explicitOriginalTarget.attributes.data.value;
