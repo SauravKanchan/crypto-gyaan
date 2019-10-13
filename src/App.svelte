@@ -8,7 +8,8 @@
     router.start();
 
     function logout() {
-        window.location.href = "/"
+        address = "";
+        window.wallet = undefined;
     }
 
     import {
@@ -50,9 +51,12 @@
                         <NavLink href="/addNewGyaan">Add New Gyaan</NavLink>
                     </NavItem>
                     <NavItem>
+                        <NavLink href="/BuyGyaan">Buy Gyaan</NavLink>
+                    </NavItem>
+                    <NavItem>
                         <NavLink href="/" on:click={logout}>Logout</NavLink>
                     </NavItem>
-                {/if}}
+                {/if}
             </Nav>
         </Collapse>
 </Navbar>

@@ -60,7 +60,7 @@ describe('Crypto Gyaan', async () => {
         let tx4 = await cryptoGyaan.functions.place_order(1, 10 ** 8);
         await tx4.wait();
 
-        assert.ok(await cryptoGyaan.functions.total_order(0), "Order placed");
+        assert.ok(parseInt(await cryptoGyaan.functions.total_order_count()) === 2, "Order placed");
     });
 
 

@@ -25,6 +25,9 @@ contract CryptoGyaan {
         erc721 = MyERC721(_gyann_contract);
     }
 
+    function total_order_count() public view returns(uint256){
+        return total_order.length;
+    }
 
     event PlaceOrder(
         uint256 indexed _token_id,

@@ -34,6 +34,11 @@ router('/addNewGyaan', () =>
         module => page.set({ component: module.default })
     )
 );
+router('/BuyGyaan', () =>
+    import('./views/BuyGyaan.svelte').then(
+        module => page.set({ component: module.default })
+    )
+);
 router('/AddGyaanToSale/:token_id', ctx =>
     import(/* webpackChunkName: "hello" */ './views/AddGyaanToSale.svelte').then(module =>
         page.set({ component: module.default, props: ctx.params })
