@@ -1,6 +1,7 @@
 <script>
     let image = "", logs = [], image_path = "", hash = "", title = "", description = "", gyaan_hash = "",
-            image_uploaded = false;
+            image_uploaded = false, message = "";
+    let config = require('../../config.json');
 
     async function upload(e) {
         if (this.files && this.files[0]) {
@@ -22,6 +23,7 @@
     }
 
     async function upload_gyaan(e) {
+        message = "";
         e.preventDefault();
         logs.unshift("Adding gyaan to IPFS...");
         logs = logs;
@@ -38,9 +40,14 @@
         let block = await tx.wait();
         logs.unshift("Transaction mined. Block Number: " + block.blockNumber);
         logs = logs;
+        message = `Gyaan Added. You can check the transaction in https://${config.network}.etherscan.io/tx/${tx.hash}`
     }
 </script>
-
+{#if message}
+    <div class="alert alert-success" role="alert">
+        {message}
+    </div>
+{/if}
 <div class="d-flex justify-content-center m-4 row">
     <div class="h2 col-md-6 offset-md-3">Add New Gyaan</div>
 

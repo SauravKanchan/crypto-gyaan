@@ -1,11 +1,12 @@
 <script>
     export let token_id;
 
-    let logs = [],  price = "";
-
+    let logs = [],  price = "", message = "";
+    let config = require('../../config.json');
 
     async function sell_gyaan(e) {
         e.preventDefault();
+        message = "";
         logs.unshift("Waiting for transaction 'approve' of "+token_id);
         logs = logs;
         let tx_approve = await erc721.functions.approve(cryptoGyaan.address, token_id);
@@ -22,9 +23,14 @@
         block = await tx.wait();
         logs.unshift("transaction mined. Block Number:"+block.blockNumber);
         logs = logs;
+        message = `Gyaan Added. You can check the transaction in https://${config.network}.etherscan.io/tx/${tx.hash}`
     }
 </script>
-
+{#if message}
+    <div class="alert alert-success" role="alert">
+        {message}
+    </div>
+{/if}
 <div class="d-flex justify-content-center m-4 row">
     <div class="h2 col-md-6 offset-md-3">Sell Gyaan</div>
 

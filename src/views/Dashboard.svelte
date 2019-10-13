@@ -49,6 +49,7 @@
     async function add_token(token_id) {
         token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
+        console.log(token_uri);
         let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
         my_tokens.unshift(token_id);
@@ -157,7 +158,7 @@
 {/if}
 <div class="row">
     <div class="col-md-12">
-        <div class="h2 strong">My Tokens:</div>
+        <div class="h2 strong">My Tokens ({total_tokens} tokens):</div>
     </div>
     {#if token_exist }
         {#if my_tokens.length}
