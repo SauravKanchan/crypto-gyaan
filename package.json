@@ -29,6 +29,7 @@
   "homepage": "https://github.com/SauravKanchan/crypto-gyaan#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "axios-cache-adapter": "^2.4.1",
     "bip39": "^3.0.2",
     "ethers": "^4.0.37",
     "express": "^4.17.1",

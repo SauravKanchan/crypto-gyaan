@@ -24,7 +24,7 @@
     async function add_token(token_id, price, order_id) {
         token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
-        let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
+        let res = await window.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
         my_tokens.unshift(token_id);
         token_title.unshift(data.title);
@@ -38,7 +38,7 @@
         token_title = token_title;
         token_description = token_description;
         token_images = token_images;
-        let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
+        let image_res = await window.get("https://ipfs.io/ipfs/" + data.image);
         token_images[my_tokens.indexOf(token_id)] = image_res.data;
         token_images = token_images;
         console.log(`Loaded ${token_id}`);

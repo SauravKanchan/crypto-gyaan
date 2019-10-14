@@ -50,7 +50,7 @@
         token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
         console.log(token_uri);
-        let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
+        let res = await window.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
         my_tokens.unshift(token_id);
         token_title.unshift(data.title);
@@ -60,7 +60,7 @@
         token_title = token_title;
         token_description = token_description;
         token_images = token_images;
-        let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
+        let image_res = await window.get("https://ipfs.io/ipfs/" + data.image);
         token_images[my_tokens.indexOf(token_id)] = image_res.data;
         token_images = token_images;
         console.log(`Loaded ${token_id}`);
@@ -69,7 +69,7 @@
     async function add_token_sale(token_id, status, order_id) {
         token_exist = true;
         let token_uri = await window.erc721.functions.tokenURI(token_id);
-        let res = await axios.get("https://ipfs.io/ipfs/" + token_uri);
+        let res = await window.get("https://ipfs.io/ipfs/" + token_uri);
         let data = res.data;
         order_status.unshift(status);
         order_sale.unshift(order_id);
@@ -83,7 +83,7 @@
         token_images_sale = token_images_sale;
         order_sale = order_sale;
         order_status = order_status;
-        let image_res = await axios.get("https://ipfs.io/ipfs/" + data.image);
+        let image_res = await window.get("https://ipfs.io/ipfs/" + data.image);
         token_images_sale[my_tokens_sale.indexOf(token_id)] = image_res.data;
         token_images_sale = token_images_sale;
         console.log("asdf",`Loaded ${token_id}`);

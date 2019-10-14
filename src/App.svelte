@@ -1,12 +1,23 @@
 <script>
     import router, {page} from './router'
+
     const IPFS = require('ipfs-mini');
     window.bip39 = require('bip39');
     window.ethers = require('ethers');
     const config = require('../config.json');
-    window.ipfs = new IPFS({ host: config.ipfs, port: 5001, protocol: 'https' });
+    window.ipfs = new IPFS({host: config.ipfs, port: 5001, protocol: 'https'});
     let address;
     router.start();
+    const axios = require('axios');
+    import {setupCache} from 'axios-cache-adapter'
+
+    const cache = setupCache({
+        maxAge: 24 * 60 * 60 * 1000
+    });
+
+    window.get = axios.create({
+        adapter: cache.adapter
+    });
 
     function logout() {
         address = "";
